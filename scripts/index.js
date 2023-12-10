@@ -38,11 +38,14 @@ function playRound(playerSelection, computerSelection) {
   }
 }
 
-function game() {
-  const playerMove = prompt("Enter: Rock, Paper or Scissors").toLocaleLowerCase();
-  const computerMove = getComputerChoice();
-  
-  return playRound(playerMove, computerMove);
-}
-console.log(game());
+
+const btn = document.querySelectorAll('.move');
+btn.forEach((button) => {
+  button.addEventListener('click', (e) => {
+    let playerMove = e.target.id
+    const computerMove = getComputerChoice();
+    const result = playRound(playerMove, computerMove);
+    document.querySelector('.result').innerHTML = result;
+  });
+});
 
