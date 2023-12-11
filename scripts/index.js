@@ -46,6 +46,3 @@ function game() {
 }
 console.log(game());
 
-<<<<<<<<<<<<<<  ✨ Codeium Command ⭐ >>>>>>>>>>>>>>>>
-git commit -m "Added game logic for rock-paper-scissors"
-<<<<<<<  762a37eb-c073-4d61-a64b-87d6ea8af2bb  >>>>>>>
