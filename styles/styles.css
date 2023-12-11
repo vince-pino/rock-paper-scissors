@@ -1,0 +1,57 @@
+body {
+  font-family: "Press Start 2P";
+  background-color: #000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+h1 {
+  text-align: center;
+  color: white;
+}
+
+p {
+  color: white;
+}
+
+.btn-move {
+  background-color: #000;
+  border: 5px solid white;
+  border-radius: 100%;
+  padding: 50px;
+  cursor: pointer;
+}
+
+img {
+  width: 100px;
+  height: auto;
+}
+
+.result img {
+  width: 70px;
+}
+
+.result span {
+  margin-left: -40px;
+  margin-right: 200px;
+}
+
+.final-result {
+  font-size: 40px;
+}
+
+.play {
+  font-family: "Press Start 2P";
+  background-color: green;
+  padding: 20px 60px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.play:hover {
+  background-color: darkgreen;
+  color: white;
+}
