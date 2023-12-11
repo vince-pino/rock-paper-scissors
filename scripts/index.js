@@ -1,3 +1,8 @@
+const score = {
+  player: 0,
+  computer: 0
+}
+
 function getComputerChoice() {
   const computerMove =  Math.floor(Math.random() * 3);
 
@@ -12,40 +17,55 @@ function getComputerChoice() {
   }
 }
 
+
 function playRound(playerSelection, computerSelection) {
   const playerMove = playerSelection.toLowerCase();
-  
+
+  let result = "";
+
   if (playerMove === computerSelection) {
-    return "It's a draw! You both select " + playerMove.toUpperCase();
+    result = "Draw";
   }
-  else if (playerMove === "rock" && computerSelection === "scissors") {
-    return `You win! ${playerMove.toUpperCase()} beats ${computerSelection.toUpperCase()}`;
+  else if ((playerMove === "rock" && computerSelection === "scissors") ||
+           (playerMove === "paper" && computerSelection === "rock") ||
+           (playerMove === "scissors" && computerSelection === "paper")){
+
+            result = "Win";
+            score.player++;
   }
-  else if ( playerMove === "rock" && computerSelection === "paper") {
-    return `You lose! ${computerSelection.toUpperCase()} beats ${playerMove.toUpperCase()}`;
+  else {
+    result = "Lose";
+    score.computer++;
   }
-  else if (playerMove === "paper" && computerSelection === "rock") {
-    return `You win! ${playerMove.toUpperCase()} beats ${computerSelection.toUpperCase()}`;
+
+  if (result === "Draw") {
+    console.log(result);
+    document.querySelector('.result').innerHTML = `It's a tie! you both choose ${playerMove}`;
   }
-  else if ( playerMove === "paper" && computerSelection === "scissors") {
-    return `You lose! ${computerSelection.toUpperCase()} beats ${playerMove.toUpperCase()}`;
+  else if (result === "Win") {
+    console.log(result);
+    document.querySelector('.result').innerHTML = `You Win! ${playerMove} beats ${computerSelection}`;
   }
-  else if (playerMove === "scissors" && computerSelection === "paper") {
-    return `You win! ${playerMove.toUpperCase()} beats ${computerSelection.toUpperCase()}`;
+  else if (result === "Lose"){
+    console.log(result);
+    document.querySelector('.result').innerHTML = `You Lose! ${computerSelection} beats ${playerMove}`;
   }
-  else if ( playerMove === "scissors" && computerSelection === "rock") {
-    return `You lose! ${computerSelection.toUpperCase()} beats ${playerMove.toUpperCase()}`;
-  }
+
+  document.querySelector('.score').innerHTML = `Score- You: ${score.player} - Computer: ${score.computer}`;
+
 }
 
+function game() {
+  const btn = document.querySelectorAll('.move');
 
-const btn = document.querySelectorAll('.move');
-btn.forEach((button) => {
-  button.addEventListener('click', (e) => {
-    let playerMove = e.target.id
-    const computerMove = getComputerChoice();
-    const result = playRound(playerMove, computerMove);
-    document.querySelector('.result').innerHTML = result;
+  btn.forEach((button) => {
+    button.addEventListener('click', (e) => {
+      const playerMove = e.target.id
+      const computerMove = getComputerChoice();
+      playRound(playerMove, computerMove);
+    });
   });
-});
+}
+
+game();
 
