@@ -1,6 +1,7 @@
 const score = {
-  player: 0,
-  computer: 0
+  wins: 0,
+  losses: 0,
+  ties: 0
 }
 
 function getComputerChoice() {
@@ -17,7 +18,6 @@ function getComputerChoice() {
   }
 }
 
-
 function playRound(playerSelection, computerSelection) {
   const playerMove = playerSelection.toLowerCase();
 
@@ -25,61 +25,98 @@ function playRound(playerSelection, computerSelection) {
 
   if (playerMove === computerSelection) {
     result = "Draw";
+    score.ties++;
   }
   else if ((playerMove === "rock" && computerSelection === "scissors") ||
            (playerMove === "paper" && computerSelection === "rock") ||
            (playerMove === "scissors" && computerSelection === "paper")){
 
             result = "Win";
-            score.player++;
+            score.wins++;
   }
   else {
     result = "Lose";
-    score.computer++;
+    score.losses++;
   }
-
-  document.querySelector('.score').innerHTML = `Score- You: ${score.player} - Computer: ${score.computer}`;
 
   if (result === "Draw") {
-    console.log(result);
-    document.querySelector('.result').innerHTML = `It's a tie! you both choose ${playerMove}`;
+    document.querySelector('.result').innerHTML = `<img src="images/${playerMove}-emoji.png"> Draw <img src="images/${computerSelection}-emoji.png"><br> <span>You</span>Computer`;
   }
   else if (result === "Win") {
-    console.log(result);
-    document.querySelector('.result').innerHTML = `You Win! ${playerMove} beats ${computerSelection}`;
+    document.querySelector('.result').innerHTML = `<img src="images/${playerMove}-emoji.png"> Win <img src="images/${computerSelection}-emoji.png"><br> <span>You</span>Computer`;
   }
   else if (result === "Lose"){
-    console.log(result);
-    document.querySelector('.result').innerHTML = `You Lose! ${computerSelection} beats ${playerMove}`;
+    document.querySelector('.result').innerHTML = `<img src="images/${playerMove}-emoji.png"> Lose <img src="images/${computerSelection}-emoji.png"><br> <span>You</span>Computer`;
   }
 
-  if (score.player === 5) {
+  if (score.wins === 5) {
     document.querySelector('.final-result').innerHTML = "You Win!";
-    score.player = 0;
-    score.computer = 0;
+    updateScore();
+    disableButtons();
+    playBtn.style.display = 'block';
+    playBtn.textContent = 'Play Again';
+    return;
   }
-  else if (score.computer === 5) {
+  else if (score.losses === 5) {
     document.querySelector('.final-result').innerHTML = "You Lose!";
-    score.player = 0;
-    score.computer = 0;
+    updateScore();
+    disableButtons();
+    playBtn.style.display = 'block';
+    playBtn.textContent = 'Play Again';
+    return;
   }
   else {
     document.querySelector('.final-result').innerHTML = "";
   }
-
+  updateScore();
 }
 
-function game() {
+function playGame() {
   const btn = document.querySelectorAll('.move');
-
   btn.forEach((button) => {
-    button.addEventListener('click', (e) => {
-      const playerMove = e.target.id
-      const computerMove = getComputerChoice();
-      playRound(playerMove, computerMove);
-    });
+    button.removeEventListener('click', handleButtonClick); // Remove existing event listener
+    button.addEventListener('click', handleButtonClick); // Add a new event listener
   });
 }
 
-game();
+function handleButtonClick() {
+  const playerMove = this.id;
+  const computerMove = getComputerChoice();
+  playRound(playerMove, computerMove);
+}
 
+function updateScore() {
+  document.querySelector('.score').innerHTML = `Wins: ${score.wins} Losses: ${score.losses} Ties: ${score.ties}`;
+}
+
+function disableButtons() {
+  const btn = document.querySelectorAll('.move');
+  btn.forEach((button) => {
+    button.disabled = true;
+  });
+}
+
+function enableButtons() {
+  const btn = document.querySelectorAll('.move');
+  btn.forEach((button) => {
+    button.disabled = false;
+  });
+}
+
+function resetScore() {
+  score.wins = 0;
+  score.losses = 0;
+  score.ties = 0;
+}
+
+const playBtn = document.querySelector('.play');
+
+playBtn.addEventListener('click', () => {
+  resetScore();
+  updateScore();
+  playGame();
+  enableButtons();
+  playBtn.style.display = 'none';
+  document.querySelector('.result').innerHTML = "";
+  document.querySelector('.final-result').innerHTML = "";
+});
