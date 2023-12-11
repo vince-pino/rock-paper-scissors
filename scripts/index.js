@@ -38,6 +38,8 @@ function playRound(playerSelection, computerSelection) {
     score.computer++;
   }
 
+  document.querySelector('.score').innerHTML = `Score- You: ${score.player} - Computer: ${score.computer}`;
+
   if (result === "Draw") {
     console.log(result);
     document.querySelector('.result').innerHTML = `It's a tie! you both choose ${playerMove}`;
@@ -51,7 +53,19 @@ function playRound(playerSelection, computerSelection) {
     document.querySelector('.result').innerHTML = `You Lose! ${computerSelection} beats ${playerMove}`;
   }
 
-  document.querySelector('.score').innerHTML = `Score- You: ${score.player} - Computer: ${score.computer}`;
+  if (score.player === 5) {
+    document.querySelector('.final-result').innerHTML = "You Win!";
+    score.player = 0;
+    score.computer = 0;
+  }
+  else if (score.computer === 5) {
+    document.querySelector('.final-result').innerHTML = "You Lose!";
+    score.player = 0;
+    score.computer = 0;
+  }
+  else {
+    document.querySelector('.final-result').innerHTML = "";
+  }
 
 }
 
